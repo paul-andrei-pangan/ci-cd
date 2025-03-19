@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04  # Updated para maiwasan ang compatibility issues
 
     steps:
       - name: Checkout Repository
@@ -19,7 +19,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 3.19.0  # Palitan kung may ibang version ka
+          flutter-version: 3.29.0  # Palitan ito kung iba ang Flutter version mo
 
       - name: Install Dependencies
         run: flutter pub get
@@ -30,8 +30,11 @@ jobs:
       - name: Build APK
         run: flutter build apk --split-per-abi
 
+      - name: Debug APK Directory
+        run: ls -R build/app/outputs/flutter-apk/
+
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  # Updated version para maiwasan ang error
         with:
           name: release-apk
           path: build/app/outputs/flutter-apk/*.apk
