@@ -11,16 +11,21 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04  # Gumamit ng specific na runner version
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Setup Node.js  # Solusyon 1
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 3.29.0 # Palitan ito kung iba ang Flutter version mo
+          flutter-version: 3.29.0
 
       - name: Clean Flutter Cache
         run: flutter clean
@@ -37,8 +42,11 @@ jobs:
       - name: Debug APK Directory
         run: ls -R build/app/outputs/flutter-apk/
 
+      - name: Install Upload Artifact Action  # Solusyon 3
+        run: npm install -g @actions/artifact
+
       - name: Upload APK
-        uses: actions/upload-artifact@v3 # Updated to v3
+        uses: actions/upload-artifact@v3
         with:
           name: release-apk
           path: build/app/outputs/flutter-apk/*.apk
