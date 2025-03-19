@@ -19,7 +19,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 3.29.0  # Palitan kung iba ang Flutter version mo
+          flutter-version: '3.19.0'  # Palitan kung ibang version gamit mo
 
       - name: Install Dependencies
         run: flutter pub get
@@ -30,11 +30,11 @@ jobs:
       - name: Build APK
         run: flutter build apk --split-per-abi
 
-      - name: Debug APK Directory
+      - name: Show Build Output
         run: ls -R build/app/outputs/flutter-apk/
 
       - name: Upload APK
-        uses: actions/upload-artifact@v3  # Ginawa nang @v3 para hindi mag-error
+        uses: actions/upload-artifact@v4  # <-- UPDATED TO v4
         with:
           name: release-apk
           path: build/app/outputs/flutter-apk/*.apk
